@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Loop MS Omni</string>
+	<string>Loop</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.10.0</string>
+	<string>$(LOOP_MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>57</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>MainAppBundleIdentifier</key>
 	<string>$(MAIN_APP_BUNDLE_IDENTIFIER)</string>
 	<key>NSExtension</key>

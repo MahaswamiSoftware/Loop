@@ -48,13 +48,11 @@ class StatusViewController: UIViewController, NCWidgetProviding {
                 settings.labelsToAxisSpacingX = 6
                 settings.clipInnerFrame = false
                 return settings
-            }()
+            }(),
+            traitCollection: traitCollection
         )
 
-        charts.glucoseDisplayRange = (
-            min: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 100),
-            max: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 175)
-        )
+        charts.predictedGlucose.glucoseDisplayRange = HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 100)...HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 175)
 
         return charts
     }()
@@ -83,30 +81,43 @@ class StatusViewController: UIViewController, NCWidgetProviding {
         basalProfile: defaults?.basalRateSchedule,
         insulinSensitivitySchedule: defaults?.insulinSensitivitySchedule
     )
+    
+    private var pluginManager: PluginManager = {
+        let containingAppFrameworksURL = Bundle.main.privateFrameworksURL?.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("Frameworks")
+        return PluginManager(pluginsURL: containingAppFrameworksURL)
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         subtitleLabel.isHidden = true
-        subtitleLabel.textColor = .subtitleLabelColor
+        if #available(iOSApplicationExtension 13.0, iOS 13.0, *) {
+            subtitleLabel.textColor = .secondaryLabel
+            insulinLabel.textColor = .secondaryLabel
+        } else {
+            subtitleLabel.textColor = .subtitleLabelColor
+            insulinLabel.textColor = .subtitleLabelColor
+        }
+
         insulinLabel.isHidden = true
-        insulinLabel.textColor = .subtitleLabelColor
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(openLoopApp(_:)))
         view.addGestureRecognizer(tapGestureRecognizer)
 
         self.charts.prerender()
         glucoseChartContentView.chartGenerator = { [weak self] (frame) in
-            return self?.charts.glucoseChartWithFrame(frame)?.view
+            return self?.charts.chart(atIndex: 0, frame: frame)?.view
         }
 
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
 
         switch extensionContext?.widgetActiveDisplayMode ?? .compact {
-        case .compact:
-            glucoseChartContentView.isHidden = true
         case .expanded:
             glucoseChartContentView.isHidden = false
+        case .compact:
+            fallthrough
+        @unknown default:
+            glucoseChartContentView.isHidden = true
         }
 
         observers = [
@@ -124,10 +135,12 @@ class StatusViewController: UIViewController, NCWidgetProviding {
         let compactHeight = hudView.systemLayoutSizeFitting(maxSize).height + subtitleLabel.systemLayoutSizeFitting(maxSize).height
 
         switch activeDisplayMode {
-        case .compact:
-            preferredContentSize = CGSize(width: maxSize.width, height: compactHeight)
         case .expanded:
             preferredContentSize = CGSize(width: maxSize.width, height: compactHeight + 100)
+        case .compact:
+            fallthrough
+        @unknown default:
+            preferredContentSize = CGSize(width: maxSize.width, height: compactHeight)
         }
     }
 
@@ -138,6 +151,10 @@ class StatusViewController: UIViewController, NCWidgetProviding {
             (UIViewControllerTransitionCoordinatorContext) -> Void in
             self.glucoseChartContentView.isHidden = self.extensionContext?.widgetActiveDisplayMode != .expanded
         })
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        charts.traitCollection = traitCollection
     }
     
     @objc private func openLoopApp(_: Any) {
@@ -192,7 +209,7 @@ class StatusViewController: UIViewController, NCWidgetProviding {
             let hudViews: [BaseHUDView]
 
             if let hudViewsContext = context.pumpManagerHUDViewsContext,
-                let contextHUDViews = hudViewsContext.hudViews
+                let contextHUDViews = PumpManagerHUDViewsFromRawValue(hudViewsContext.pumpManagerHUDViewsRawValue, pluginManager: self.pluginManager)
             {
                 hudViews = contextHUDViews
             } else {
@@ -248,58 +265,42 @@ class StatusViewController: UIViewController, NCWidgetProviding {
                 )
             }
 
-            let glucoseFormatter = NumberFormatter.glucoseFormatter(for: unit)
+            let glucoseFormatter = QuantityFormatter()
+            glucoseFormatter.setPreferredNumberFormatter(for: unit)
 
-            let dateFormatter: DateFormatter = {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = .none
-                dateFormatter.timeStyle = .short
-
-                return dateFormatter
-            }()
-
-            self.charts.glucoseUnit = unit
-            self.charts.glucosePoints = glucose.map {
-                ChartPoint(
-                    x: ChartAxisValueDate(date: $0.startDate, formatter: dateFormatter),
-                    y: ChartAxisValueDoubleUnit($0.quantity.doubleValue(for: unit), unitString: unit.localizedShortUnitString, formatter: glucoseFormatter)
-                )
-            }
+            self.charts.predictedGlucose.glucoseUnit = unit
+            self.charts.predictedGlucose.setGlucoseValues(glucose)
 
             if let predictedGlucose = context.predictedGlucose?.samples {
-                self.charts.predictedGlucosePoints = predictedGlucose.map {
-                    ChartPoint(
-                        x: ChartAxisValueDate(date: $0.startDate, formatter: dateFormatter),
-                        y: ChartAxisValueDoubleUnit($0.quantity.doubleValue(for: unit), unitString: unit.localizedShortUnitString, formatter: glucoseFormatter)
-                    )
-                }
+                self.charts.predictedGlucose.setPredictedGlucoseValues(predictedGlucose)
 
                 if let eventualGlucose = predictedGlucose.last {
-                    if let eventualGlucoseNumberString = glucoseFormatter.string(from: eventualGlucose.quantity.doubleValue(for: unit)) {
+                    if let eventualGlucoseNumberString = glucoseFormatter.string(from: eventualGlucose.quantity, for: unit) {
                         self.subtitleLabel.text = String(
                             format: NSLocalizedString(
-                                "Eventually %1$@ %2$@",
-                                comment: "The subtitle format describing eventual glucose.  (1: localized glucose value description) (2: localized glucose units description)"
+                                "Eventually %1$@",
+                                comment: "The subtitle format describing eventual glucose.  (1: localized glucose value description)"
                             ),
-                            eventualGlucoseNumberString,
-                            unit.localizedShortUnitString
+                            eventualGlucoseNumberString
                         )
                         self.subtitleLabel.isHidden = false
                     }
                 }
             }
 
-            self.charts.targetGlucoseSchedule = defaults.loopSettings?.glucoseTargetRangeSchedule
-
+            self.charts.predictedGlucose.targetGlucoseSchedule = defaults.loopSettings?.glucoseTargetRangeSchedule
+            self.charts.invalidateChart(atIndex: 0)
             self.charts.prerender()
             self.glucoseChartContentView.reloadChart()
         }
 
         switch extensionContext?.widgetActiveDisplayMode ?? .compact {
-        case .compact:
-            glucoseChartContentView.isHidden = true
         case .expanded:
             glucoseChartContentView.isHidden = false
+        case .compact:
+            fallthrough
+        @unknown default:
+            glucoseChartContentView.isHidden = true
         }
 
         // Right now we always act as if there's new data.

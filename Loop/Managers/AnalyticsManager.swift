@@ -123,8 +123,8 @@ final class AnalyticsManager: IdentifiableClass {
         if newValue.glucoseTargetRangeSchedule != oldValue.glucoseTargetRangeSchedule {
             if newValue.glucoseTargetRangeSchedule?.timeZone != oldValue.glucoseTargetRangeSchedule?.timeZone {
                 self.punpTimeZoneDidChange()
-            } else if newValue.glucoseTargetRangeSchedule?.override != oldValue.glucoseTargetRangeSchedule?.override {
-                logEvent("Glucose target range override change", outOfSession: true)
+            } else if newValue.scheduleOverride != oldValue.scheduleOverride {
+                logEvent("Temporary schedule override change", outOfSession: true)
             } else {
                 logEvent("Glucose target range change")
             }
@@ -150,8 +150,8 @@ final class AnalyticsManager: IdentifiableClass {
         logEvent("CGM Fetch", outOfSession: true)
     }
 
-    func loopDidSucceed() {
-        logEvent("Loop success", outOfSession: true)
+    func loopDidSucceed(_ duration: TimeInterval) {
+        logEvent("Loop success", withProperties: ["duration": duration], outOfSession: true)
     }
 
     func loopDidError() {
