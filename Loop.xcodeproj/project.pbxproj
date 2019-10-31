@@ -75,6 +75,7 @@
 		4345E40621F68E18009E00E5 /* CarbEntryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345E40521F68E18009E00E5 /* CarbEntryListController.swift */; };
 		4346D1E71C77F5FE00ABAFE3 /* ChartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346D1E61C77F5FE00ABAFE3 /* ChartTableViewCell.swift */; };
 		434A9F9923124B210047C077 /* BolusConfirmationScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434A9F9823124B210047C077 /* BolusConfirmationScene.swift */; };
+		434FB6461D68F1CD007B9C70 /* Amplitude.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434FB6451D68F1CD007B9C70 /* Amplitude.framework */; };
 		434FF1EE1CF27EEF000DB779 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FF1ED1CF27EEF000DB779 /* UITableViewCell.swift */; };
 		43511CE221FD80E400566C63 /* RetrospectiveCorrection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43511CDF21FD80E400566C63 /* RetrospectiveCorrection.swift */; };
 		43511CE321FD80E400566C63 /* StandardRetrospectiveCorrection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43511CE021FD80E400566C63 /* StandardRetrospectiveCorrection.swift */; };
@@ -326,7 +327,6 @@
 		4FF4D0F81E1725B000846527 /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434F54561D287FDB002A9274 /* NibLoadable.swift */; };
 		4FF4D1001E18374700846527 /* WatchContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4D0FF1E18374700846527 /* WatchContext.swift */; };
 		4FF4D1011E18375000846527 /* WatchContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4D0FF1E18374700846527 /* WatchContext.swift */; };
-		751EE54823599FA700BF1C4A /* Amplitude.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434FB6451D68F1CD007B9C70 /* Amplitude.framework */; };
 		7D23667D21250C7E0028B67D /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23667C21250C7E0028B67D /* LocalizedString.swift */; };
 		7D2366E621250E0A0028B67D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D2366E421250E0A0028B67D /* InfoPlist.strings */; };
 		7D7076351FE06EDE004AC8EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7D7076371FE06EDE004AC8EA /* Localizable.strings */; };
@@ -1062,7 +1062,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				751EE54823599FA700BF1C4A /* Amplitude.framework in Frameworks */,
+				434FB6461D68F1CD007B9C70 /* Amplitude.framework in Frameworks */,
 				43A8EC6F210E622700A81379 /* CGMBLEKitUI.framework in Frameworks */,
 				438A95A81D8B9B24009D12E1 /* CGMBLEKit.framework in Frameworks */,
 				43C246A81D89990F0031F8D1 /* Crypto.framework in Frameworks */,
@@ -3355,7 +3355,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LOCALIZED_STRING_MACRO_NAMES = (
 					NSLocalizedString,
 					CFLocalizedString,
@@ -3421,7 +3421,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LOCALIZED_STRING_MACRO_NAMES = (
 					NSLocalizedString,
 					CFLocalizedString,
@@ -3485,6 +3485,7 @@
 				CODE_SIGN_ENTITLEMENTS = "WatchApp Extension/WatchApp Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
@@ -3508,6 +3509,7 @@
 				CODE_SIGN_ENTITLEMENTS = "WatchApp Extension/WatchApp Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				INFOPLIST_FILE = "WatchApp Extension/Info.plist";
@@ -3529,6 +3531,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APPICON_NAME)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				IBSC_MODULE = WatchApp_Extension;
@@ -3550,6 +3553,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "$(APPICON_NAME)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/watchOS";
 				IBSC_MODULE = WatchApp_Extension;
@@ -3576,7 +3580,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3612,7 +3616,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3648,6 +3652,7 @@
 				CODE_SIGN_ENTITLEMENTS = Learn/Learn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Learn/Info.plist;
@@ -3676,6 +3681,7 @@
 				CODE_SIGN_ENTITLEMENTS = Learn/Learn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Learn/Info.plist;
@@ -3700,7 +3706,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3733,7 +3739,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3830,6 +3836,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Loop Status Extension/Info.plist";
@@ -3852,6 +3859,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Loop Status Extension/Info.plist";
@@ -3872,7 +3880,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3899,7 +3907,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 1000;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y2R865659B;
 				DYLIB_COMPATIBILITY_VERSION = 1;
